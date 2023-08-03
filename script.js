@@ -1,26 +1,25 @@
-
 const operate = () => {
-    let temp;
-    number1 = parseFloat(number1);
-    number2 = parseFloat(number2);
-    switch (operand) {
-        case "+":
-            return parseFloat(add(number1, number2).toFixed(2));
-            break;
-        case "-":
-            return parseFloat(subtract(number1, number2).toFixed(2));
-            break;
-        case "*":
-            return parseFloat(multiply(number1, number2).toFixed(2));
-            break;
-        case "/":
-            if (number2 == 0) {
-                return "Error: Divide by 0"
-            }
-            return parseFloat(divide(number1, number2).toFixed(2));
-            break;
-        default:
-            break;
+  let temp;
+  number1 = parseFloat(number1);
+  number2 = parseFloat(number2);
+  switch (operand) {
+    case "+":
+      return parseFloat(add(number1, number2).toFixed(2));
+      break;
+    case "-":
+      return parseFloat(subtract(number1, number2).toFixed(2));
+      break;
+    case "*":
+      return parseFloat(multiply(number1, number2).toFixed(2));
+      break;
+    case "/":
+      if (number2 == 0) {
+        return "ERROR: Divide by 0";
+      }
+      return parseFloat(divide(number1, number2).toFixed(2));
+      break;
+    default:
+      break;
   }
 };
 
@@ -46,59 +45,98 @@ const inputs = document.querySelector(".inputs");
 const display = document.querySelector(".display");
 
 inputs.addEventListener("click", (event) => {
-    let input = event.target.getAttribute('id'); 
-    
+    userInput(event);
+  }
+);
 
-  
+window.addEventListener('keydown', (event) => {
 
-    switch (event.target.getAttribute("class")) {
-        case "numberInputs":
-            if (display.innerHTML=="0" || isNaN(parseFloat(display.innerHTML))){
-                if (input == "."){
-                    display.innerHTML+=event.target.innerHTML;
-                }else {
+    userInput(event);
 
-                    display.innerHTML = event.target.innerHTML;
-                }
-            } else if (input == "." && display.innerHTML.includes(".") || 
-            display.innerHTML.length-display.innerHTML.indexOf(".") == 2){
-                break;
-            }else {
-                display.innerHTML+=event.target.innerHTML;
-            }
-      break;
-        case "operaterInputs":
-
-
-            if (number1 == undefined){
-                number1=parseFloat(display.innerHTML);
-                operand=input;
-                display.innerHTML = operand;
-
-            } else if (!isNaN(display.innerHTML)) {
-                number2 = parseFloat(display.innerHTML);
-                number1 = operate();
-                operand = input;
-                display.innerHTML = operand;
-              }
-                
-                
-            
-        break;
-        case "displayInputs":
-
-            if (input == "clear"){
-                number1 = number2 = operand = undefined;
-                display.innerHTML = 0;
-            } else if (input == "equals"){
-            
-                number2=parseFloat(display.innerHTML);
-                display.innerHTML=operate();
-
-            }
-        break;
-        default:
-      break;
-    }
 
 });
+
+
+const userInput = (event)=>{
+    let type, output;
+    if (!event.key) {
+        type = event.target.getAttribute("class");
+        output = event.target.innerHTML;
+    } else {
+        if (event.keyCode >47 && event.keyCode < 58 || event.key == "."){
+            output=event.key;
+            type = "numberInputs";
+        } else if (event.key == "+" || event.key == "-" || event.key == "*" ||event.key == "/"){
+            output=event.key;
+            type = "operaterInputs";
+        } else if (event.key == "=" || event.key == "Backspace" || event.key == "Enter" || event.key == "c"){
+            output=event.key;
+            type = "displayInputs";
+        }
+    }
+
+
+    switch (type) {
+      case "numberInputs":
+        if (display.innerHTML === "0" || isNaN(parseFloat(display.innerHTML))) {
+          if (output == ".") {
+            display.innerHTML += output;
+          } else {
+            display.innerHTML = output;
+          }
+        } else if (display.innerHTML.includes(".")) {
+          if (output == ".") {
+            break;
+          } else if (display.innerHTML.length - display.innerHTML.indexOf(".") == 2) {
+            break;
+          } else {
+              display.innerHTML += output;
+          }
+        } else {
+          display.innerHTML += output;
+        }
+        break;
+      case "operaterInputs":
+        if (number1 == undefined) {
+          number1 = parseFloat(display.innerHTML);
+          operand = output;
+          display.innerHTML = operand;
+        } else if (!isNaN(display.innerHTML) && number2==undefined) {
+          number2 = parseFloat(display.innerHTML);
+          number1 = operate();
+          if (isNaN(number1)){
+            display.innerHTML = "ERROR: Divide by 0"
+          }
+          operand = output;
+          display.innerHTML = operand;
+        } else {
+          number1 = parseFloat(display.innerHTML);
+          number2 = undefined;
+          operand = output;
+          display.innerHTML = operand;
+        }
+  
+        break;
+      case "displayInputs":
+        if (output == "Clr" || output == "c") {
+          number1 = number2 = operand = undefined;
+          display.innerHTML = 0;
+        } else if (output == "Del" || output == "Backspace") {
+          
+          display.innerHTML = display.innerHTML.slice(
+            0,
+            display.innerHTML.length - 1
+          );
+          if (display.innerHTML == ""){
+              display.innerHTML = "0";
+          }
+        } else if (output == "=" || output == "Enter") {
+          number2 = parseFloat(display.innerHTML);
+          display.innerHTML = operate();
+          number1 = display.innerHTML;
+          
+        }
+        break;
+      default:
+        break;
+}};
