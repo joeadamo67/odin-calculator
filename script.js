@@ -46,18 +46,25 @@ const inputs = document.querySelector(".inputs");
 const display = document.querySelector(".display");
 
 inputs.addEventListener("click", (event) => {
-    let input = event.target.getAttribute('id');
+    let input = event.target.getAttribute('id'); 
     
 
   
 
     switch (event.target.getAttribute("class")) {
         case "numberInputs":
-            if (display.innerHTML=="0" || isNaN(display.innerHTML)){
-                display.innerHTML = input;
-            } else {
-                display.innerHTML+=input;
+            if (display.innerHTML=="0" || isNaN(parseFloat(display.innerHTML))){
+                if (input == "."){
+                    display.innerHTML+=event.target.innerHTML;
+                }else {
 
+                    display.innerHTML = event.target.innerHTML;
+                }
+            } else if (input == "." && display.innerHTML.includes(".") || 
+            display.innerHTML.length-display.innerHTML.indexOf(".") == 2){
+                break;
+            }else {
+                display.innerHTML+=event.target.innerHTML;
             }
       break;
         case "operaterInputs":

@@ -10,7 +10,7 @@ align-items: center;
 
     border: 1px solid black;
     width: 400px;
-    height: 500px;
+    height: 600px;
     padding: 10px;
 
 }
@@ -33,22 +33,32 @@ align-items: center;
 
 .inputs div{
     height: 100px;
-    flex-basis: 25%;
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1px solid black;
     box-sizing: border-box;
 }
+#zero {
+    flex-basis: 50%;
+}
+
+
 
 .numberInputs{
     background-color: lightblue;
+    flex-basis: 25%;
+
 }
 
 .operaterInputs {
     background-color: lightseagreen;
+    flex-basis: 25%;
+
 }
 
 .displayInputs {
     background-color: lightsalmon;
+    flex-basis: 50%;
+
 }
