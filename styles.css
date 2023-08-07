@@ -28,6 +28,7 @@ align-items: center;
     height: 600px;
     padding: 10px;
     background-color:gray;
+    border-radius: 15px;
 
 }
 
@@ -35,6 +36,8 @@ align-items: center;
     width: 400px;
     height:100px;
     border: 1px solid black;
+    border-radius: 15px;
+
     margin-bottom: 10px;
     display: flex;
     flex-direction: row-reverse;
@@ -45,19 +48,20 @@ align-items: center;
     margin-right: 10px;
 }
 
-.inputs {
+.inputsContainer {
     display: flex;
     width: 100%;
     flex-wrap: wrap;
     gap: 5px;
 }
 
-.inputs div{
+.inputsContainer button{
     height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
     border: 1px solid black;
+    border-radius: 15px;
     box-sizing: border-box;
     font-size: 1.5rem;
 }
